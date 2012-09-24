@@ -15,7 +15,13 @@
     }
 
     .footer {
-      margin-top: 40px;
+      margin-top: 100px;
+      padding: 20px 0;
+    }
+
+    body > .navbar .brand {
+      float: left;
+      color: #FFF;
     }
 
     #progress p {
@@ -68,11 +74,13 @@
             return;
           $.getJSON('api/create', {'data':data}, function (j) {
               $("#result").html("");
+              $("#file-url").html("");
+              $("#progress").html("");
               if (j.ok) {
                 var url = location.href + j.code;
                 $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url)));
               } else {
-                $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.err));
+                $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
               }
           });
         });
@@ -118,14 +126,17 @@
           xhr.onreadystatechange = function(e) {
             if (xhr.readyState == 4) {
               progress.className = (xhr.status == 200 ? "success" : "failure");
+              $("#result").html("");
+              $("#file-url").html("");
               if (xhr.status == 200) {
                 var j = eval("(" + xhr.responseText +")");
                 if (j.ok) {
-                  alert("短地址: http://nutz.cn/" + j.code);
+                  var url = location.href + j.code;
+                  $("#file-url").append($("<p>共享文件地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url)));
                   return;
                 }
               }
-              alert("ERROR : " + j.err);
+              $("#file-url").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
               return;
             }
           };
@@ -164,12 +175,13 @@
       <hr />
       <div id="progress"></div>
       <div id="filedrag" style="display: block;">Drop files here</div>
+      <div id="file-url" style="display: block;"></div>
     </div>
     <hr />
     <footer class="footer">
       <div class="container">
         <p>Coded and designed by Nutz Production Committee&#12288;© 2012</p>
-        <p>Powered by&#12288;<a href="https://github.com/nutzam/nutz">Nutz</a>&#12288;
+        <p>Powered by&#12288;<a href="https://github.com/nutzam/nutz">Nutz</a></p>
         <p>Thanks&#12288;<a href="https://github.com/twitter/bootstrap">Bootstrap</a>
         <p><img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&choe=UTF-8&chl=http%3A%2F%2Fwww.nutz.cn%2F"/></p>
         <ul class="footer-links">
