@@ -37,10 +37,13 @@ public class DataEntryService extends IdEntityService<DataEntry> { //超类带�
 	 * 根据文本创建一个记录, 可以是网址,也可以使普通文本
 	 */
 	public DataEntry create(String data) {
+		data = data.trim();
 		DataEntry entry = new DataEntry();
 		entry.data = data;
 		//带http/https/ftp的作为网址,其余的统统当成文本
-		if (data.startsWith("http://") || data.startsWith("https://") || data.startsWith("ftp://")) {
+		if (data.contains("\n")) {
+			entry.type = 1;
+		} else if (data.startsWith("http://") || data.startsWith("https://") || data.startsWith("ftp://")) {
 			entry.type = 0;
 		} else {
 			entry.type = 1;
