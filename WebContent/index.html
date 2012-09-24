@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>短点! 短时间短地址服务</title>
-<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
 <style type="text/css">
 body {
   padding-top: 60px;
@@ -54,22 +54,14 @@ body {
       var data = $("#data").val();
       if (!data)
         return;
-      $.ajax({
-        type : 'POST',
-        url : "api/create",
-        data : {'data':data},
-        cache : false,
-        success : function(j) {
+      $.getJSON('api/create', {'data':data}, function (j) {
+          $("#result").html("");
           if (j.ok) {
-            alert("短地址: http://nutz.cn/" + j.code);
+            var url = location.href + j.code;
+            $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url)));
           } else {
-            alert("ERROR : " + j.err);
+            $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.err));
           }
-        },
-        error : function () {
-          alert("ERROR")
-        },
-        dataType : "json"
       });
     });
 
@@ -152,14 +144,17 @@ body {
     </div>
   </div>
   <div class='container'>
-    <form>
-      <div class="control-group">
-        <textarea rows="10" cols="40" id="data"></textarea>
+    <div class="row">
+      <div class="span6">
+        <div class="control-group">
+          <textarea rows="10" class="span6" id="data"></textarea>
+        </div>
+        <div class="control-group pull-right">
+          <button id="txt_button" class="btn">短点!</button>
+        </div>
       </div>
-      <div class="control-group">
-        <button id="txt_button" class="btn">短点!</button>
-      </div>
-    </form>
+      <div class="span6" id="result"><a href=""></a></div>
+    </div>
     <hr />
     <div id="progress"></div>
     <div id="filedrag" style="display: block;">Drop files here</div>
