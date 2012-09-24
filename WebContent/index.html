@@ -56,7 +56,7 @@
 				cache : false,
 				success : function(j) {
 					if (j.ok) {
-						alert("Shortit == " + j.code);
+						alert("短地址: http://nutz.cn/" + j.code);
 					} else {
 						alert("ERROR : " + j.err);
 					}
@@ -112,7 +112,7 @@
 			        if (xhr.status == 200) {
 			        	var j = eval("(" + xhr.responseText +")");
 			        	if (j.ok) {
-							alert("Shortit == " + j.code);
+							alert("短地址: http://nutz.cn/" + j.code);
 							return;
 			        	}
 			        }
