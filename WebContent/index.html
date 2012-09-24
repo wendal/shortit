@@ -1,163 +1,183 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>短点! 短时间短地址服务</title>
-<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
-<style type="text/css">
-body {
-  padding-top: 60px;
-  padding-bottom: 40px;
-}
-
-#progress p {
-  display: block;
-  width: 240px;
-  padding: 2px 5px;
-  margin: 2px 0;
-  border: 1px inset #446;
-  border-radius: 5px;
-}
-
-#progress p.success {
-  background: #0c0 none 0 0 no-repeat;
-}
-
-#progress p.failed {
-  background: #c00 none 0 0 no-repeat;
-}
-
-#filedrag {
-  display: none;
-  font-weight: bold;
-  text-align: center;
-  padding: 1em 0;
-  margin: 1em 0;
-  color: #555;
-  border: 2px dashed #555;
-  border-radius: 7px;
-  cursor: default;
-}
-
-#filedrag.hover {
-  color: #f00;
-  border-color: #f00;
-  border-style: solid;
-  box-shadow: inset 0 3px 4px #888;
-}
-</style>
-<script type="text/javascript" src="js/base64-1.7.js"></script>
-<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
-<script type="text/javascript">
-  $(function() {
-    $("#txt_button").click(function() {
-      var data = $("#data").val();
-      if (!data)
-        return;
-      $.getJSON('api/create', {'data':data}, function (j) {
-          $("#result").html("");
-          if (j.ok) {
-            var url = location.href + j.code;
-            $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url)));
-          } else {
-            $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.err));
-          }
-      });
-    });
-
-    function FileDragHover(e) {
-      e.stopPropagation();
-      e.preventDefault();
-      e.target.className = (e.type == "dragover" ? "hover" : "");
+  <head>
+    <title>短点! 短时间短地址服务</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link href="http://twitter.github.com/bootstrap/assets/css/docs.css" rel="stylesheet">
+    <style type="text/css">
+    body {
+      padding-top: 60px;
+      padding-bottom: 40px;
+      background: none repeat scroll 0 0 #EEE;
+      color: #666;
     }
 
-    function FileSelectHandler(e) {
-      // cancel event and hover styling
-      FileDragHover(e);
-      var files = false;
-      if(e.originalEvent.dataTransfer){
-        if(e.originalEvent.dataTransfer.files.length) {
-          e.preventDefault();
+    .footer {
+      margin-top: 40px;
+    }
+
+    #progress p {
+      display: block;
+      width: 240px;
+      padding: 2px 5px;
+      margin: 2px 0;
+      border: 1px inset #446;
+      border-radius: 5px;
+    }
+
+    #progress p.success {
+      background: #0c0 none 0 0 no-repeat;
+    }
+
+    #progress p.failed {
+      background: #c00 none 0 0 no-repeat;
+    }
+
+    #filedrag {
+      display: none;
+      font-weight: bold;
+      text-align: center;
+      padding: 1em 0;
+      margin: 1em 0;
+      color: #555;
+      border: 2px dashed #555;
+      border-radius: 7px;
+      cursor: default;
+    }
+
+    #filedrag.hover {
+      color: #f00;
+      border-color: #f00;
+      border-style: solid;
+      box-shadow: inset 0 3px 4px #888;
+    }
+    </style>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="js/base64-1.7.js"></script>
+    <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        $("#txt_button").click(function() {
+          var data = $("#data").val();
+          if (!data)
+            return;
+          $.getJSON('api/create', {'data':data}, function (j) {
+              $("#result").html("");
+              if (j.ok) {
+                var url = location.href + j.code;
+                $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url)));
+              } else {
+                $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.err));
+              }
+          });
+        });
+
+        function FileDragHover(e) {
           e.stopPropagation();
-          files = e.originalEvent.dataTransfer.files
+          e.preventDefault();
+          e.target.className = (e.type == "dragover" ? "hover" : "");
         }
-      }
-      if (!files)
-        return;
 
-      var file = files[0];
-      if (file.size == 0) {
-        alert("Emtry File");
-        return;
-      }
-      if (file.size > 1024*1024) {
-        alert("Must less than 1mb")
-        return;
-      }
-      var o = document.getElementById("progress");
-      var progress = o.appendChild(document.createElement("p"));
-      progress.appendChild(document.createTextNode("upload " + file.name));
-
-      var xhr = new XMLHttpRequest();
-      xhr.upload.addEventListener("progress", function(e) {
-        var pc = parseInt(100 - (e.loaded / e.total * 100));
-        progress.style.backgroundPosition = pc + "% 0";
-      }, false);
-      xhr.onreadystatechange = function(e) {
-        if (xhr.readyState == 4) {
-          progress.className = (xhr.status == 200 ? "success" : "failure");
-          if (xhr.status == 200) {
-            var j = eval("(" + xhr.responseText +")");
-            if (j.ok) {
-              alert("短地址: http://nutz.cn/" + j.code);
-              return;
+        function FileSelectHandler(e) {
+          // cancel event and hover styling
+          FileDragHover(e);
+          var files = false;
+          if(e.originalEvent.dataTransfer){
+            if(e.originalEvent.dataTransfer.files.length) {
+              e.preventDefault();
+              e.stopPropagation();
+              files = e.originalEvent.dataTransfer.files
             }
           }
-          alert("ERROR : " + j.err);
-          return;
-        }
-      };
-      xhr.open("POST", "api/create/bin", true);
-      xhr.setRequestHeader("X-File-Name", Base64.encode(file.name));
-      xhr.setRequestHeader("X-File-Size", file.size);
-      xhr.send(file);
-    }
+          if (!files)
+            return;
 
-    $("#filedrag").bind("dragover", FileDragHover);
-    $("#filedrag").bind("dragleave",FileDragHover);
-    $("#filedrag").bind("drop", FileSelectHandler);
-  });
-</script>
-</head>
-<body>
-  <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container">
-        <div class="nav-collapse collapse">
-          <ul class="nav">
-            <li>
-              <a href="#">短点!</a>
-            </li>
-          </ul>
+          var file = files[0];
+          if (file.size == 0) {
+            alert("Emtry File");
+            return;
+          }
+          if (file.size > 1024*1024) {
+            alert("Must less than 1mb")
+            return;
+          }
+          var o = document.getElementById("progress");
+          var progress = o.appendChild(document.createElement("p"));
+          progress.appendChild(document.createTextNode("upload " + file.name));
+
+          var xhr = new XMLHttpRequest();
+          xhr.upload.addEventListener("progress", function(e) {
+            var pc = parseInt(100 - (e.loaded / e.total * 100));
+            progress.style.backgroundPosition = pc + "% 0";
+          }, false);
+          xhr.onreadystatechange = function(e) {
+            if (xhr.readyState == 4) {
+              progress.className = (xhr.status == 200 ? "success" : "failure");
+              if (xhr.status == 200) {
+                var j = eval("(" + xhr.responseText +")");
+                if (j.ok) {
+                  alert("短地址: http://nutz.cn/" + j.code);
+                  return;
+                }
+              }
+              alert("ERROR : " + j.err);
+              return;
+            }
+          };
+          xhr.open("POST", "api/create/bin", true);
+          xhr.setRequestHeader("X-File-Name", Base64.encode(file.name));
+          xhr.setRequestHeader("X-File-Size", file.size);
+          xhr.send(file);
+        }
+
+        $("#filedrag").bind("dragover", FileDragHover);
+        $("#filedrag").bind("dragleave",FileDragHover);
+        $("#filedrag").bind("drop", FileSelectHandler);
+      });
+    </script>
+  </head>
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="./">短点!</a>
         </div>
       </div>
     </div>
-  </div>
-  <div class='container'>
-    <div class="row">
-      <div class="span6">
-        <div class="control-group">
-          <textarea rows="10" class="span6" id="data"></textarea>
+    <div class='container'>
+      <div class="row">
+        <div class="span6">
+          <div class="control-group">
+            <textarea rows="10" class="span6" id="data"></textarea>
+          </div>
+          <div class="control-group pull-right">
+            <button id="txt_button" class="btn">短点!</button>
+          </div>
         </div>
-        <div class="control-group pull-right">
-          <button id="txt_button" class="btn">短点!</button>
-        </div>
+        <div class="span6" id="result"><a href=""></a></div>
       </div>
-      <div class="span6" id="result"><a href=""></a></div>
+      <hr />
+      <div id="progress"></div>
+      <div id="filedrag" style="display: block;">Drop files here</div>
     </div>
     <hr />
-    <div id="progress"></div>
-    <div id="filedrag" style="display: block;">Drop files here</div>
-  </div>
-</body>
+    <footer class="footer">
+      <div class="container">
+        <p>Coded and designed by Nutz Production Committee&#12288;© 2012</p>
+        <p>Powered by&#12288;<a href="https://github.com/nutzam/nutz">Nutz</a>&#12288;
+        <p>Thanks&#12288;<a href="https://github.com/twitter/bootstrap">Bootstrap</a>
+        <p><img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&choe=UTF-8&chl=http%3A%2F%2Fwww.nutz.cn%2F"/></p>
+        <ul class="footer-links">
+          <li><a href="http://nutzam.com">Nutz 官网地址</a></li>
+          <li><a href="https://github.com/nutzam/nutz">Nutz Github</a></li>
+          <li><a href="http://code.google.com/p/nutz/">Nutz GoogleCode 首页</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
 </html>
