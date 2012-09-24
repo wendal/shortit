@@ -20,6 +20,7 @@ import org.nutz.mvc.view.HttpStatusView;
 import org.nutz.mvc.view.JspView;
 import org.nutz.mvc.view.ServerRedirectView;
 import org.nutz.mvc.view.ViewWrapper;
+import org.nutz.repo.Base64;
 
 import cn.nutz.shortit.Helper;
 import cn.nutz.shortit.bean.DataEntry;
@@ -84,6 +85,9 @@ public class CoreModule {
 		String fileName = req.getHeader("X-File-Name");
 		if (Strings.isBlank(fileName))
 			fileName = "file.bin";
+		else {
+			fileName = new String(Base64.decodeFast(fileName), "UTF8");
+		}
 		return String.format("{'ok':true,'code':'%s'}", Long.toHexString(dataEntryService.create(req.getInputStream(), fileName).id));
 	}
 	

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>短点!</title>
+<title>短点! 短时间短地址服务</title>
 <style type="text/css">
 #progress p
 {
@@ -41,8 +41,8 @@
 	box-shadow: inset 0 3px 4px #888;
 }
 </style>
-<script type="text/javascript"
-	src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="js/base64-1.7.js"></script>
+<script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
 	$(function() {
 		$("#txt_button").click(function() {
@@ -121,7 +121,7 @@
 			    }  
 			};
 			xhr.open("POST", "api/create/bin", true);
-			xhr.setRequestHeader("X-File-Name", file.name);
+			xhr.setRequestHeader("X-File-Name", Base64.encode(file.name));
 			xhr.setRequestHeader("X-File-Size", file.size);
 			xhr.send(file);
 		}
