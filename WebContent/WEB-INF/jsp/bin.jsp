@@ -10,6 +10,6 @@
 <body>
 <h3>FileName : <%=((DataEntry)request.getAttribute("obj")).data.substring(0, ((DataEntry)request.getAttribute("obj")).data.lastIndexOf(',')) %></h3>
 <p></p>
-<a href="api/read/bin?code=<%=Long.toHexString(((DataEntry)request.getAttribute("obj")).id) %>"></a>
+<a href="api/read/bin?code=<%=Long.toHexString(((DataEntry)request.getAttribute("obj")).id) %>">下载</a>
 </body>
 </html>
