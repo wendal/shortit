@@ -2,12 +2,14 @@ package cn.nutz.shortit.module;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.nutz.ioc.loader.annotation.Inject;
 import org.nutz.ioc.loader.annotation.IocBean;
+import org.nutz.lang.Encoding;
 import org.nutz.lang.Streams;
 import org.nutz.lang.Strings;
 import org.nutz.mvc.View;
@@ -101,6 +103,7 @@ public class CoreModule {
 		DataEntry entry = query(code);
 		if (entry != null && entry.type == 2) {
 			String filename = entry.data.substring(0, entry.data.lastIndexOf(','));
+			filename = URLEncoder.encode(filename, Encoding.UTF8);
 			String fid = entry.data.substring(entry.data.lastIndexOf(',') + 1);
 			File file = Helper.filePool.getFile(Long.parseLong(fid), ".bin");
 			if (file != null && file.exists()) {
