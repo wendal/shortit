@@ -7,3 +7,5 @@
 
 .settings
 build/*
+*.db
+WebContent/WEB-INF/rsdata/*
