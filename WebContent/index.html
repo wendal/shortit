@@ -7,58 +7,71 @@
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <link href="http://twitter.github.com/bootstrap/assets/css/docs.css" rel="stylesheet">
     <style type="text/css">
-    body {
-      padding-top: 60px;
-      padding-bottom: 40px;
-      background: none repeat scroll 0 0 #EEE;
-      color: #666;
-    }
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+        background: none repeat scroll 0 0 #EEE;
+        color: #666;
+      }
 
-    .footer {
-      margin-top: 100px;
-      padding: 20px 0;
-    }
+      .footer {
+        margin-top: 100px;
+        padding: 20px 0;
+      }
 
-    body > .navbar .brand {
-      float: left;
-      color: #FFF;
-    }
+      body > .navbar .brand {
+        float: left;
+        color: #FFF;
+      }
 
-    #progress p {
-      display: block;
-      width: 240px;
-      padding: 2px 5px;
-      margin: 2px 0;
-      border: 1px inset #446;
-      border-radius: 5px;
-    }
+      #progress p {
+        display: block;
+        width: 240px;
+        padding: 2px 5px;
+        margin: 2px 0;
+        border: 1px inset #446;
+        border-radius: 5px;
+      }
 
-    #progress p.success {
-      background: #0c0 none 0 0 no-repeat;
-    }
+      #progress p.success {
+        background: #0c0 none 0 0 no-repeat;
+      }
 
-    #progress p.failed {
-      background: #c00 none 0 0 no-repeat;
-    }
+      #progress p.failed {
+        background: #c00 none 0 0 no-repeat;
+      }
 
-    #filedrag {
-      display: none;
-      font-weight: bold;
-      text-align: center;
-      padding: 1em 0;
-      margin: 1em 0;
-      color: #555;
-      border: 2px dashed #555;
-      border-radius: 7px;
-      cursor: default;
-    }
+      #filedrag {
+        display: none;
+        font-weight: bold;
+        text-align: center;
+        padding: 1em 0;
+        margin: 1em 0;
+        color: #555;
+        border: 2px dashed #555;
+        border-radius: 7px;
+        cursor: default;
+      }
 
-    #filedrag.hover {
-      color: #f00;
-      border-color: #f00;
-      border-style: solid;
-      box-shadow: inset 0 3px 4px #888;
-    }
+      #filedrag.hover {
+        color: #f00;
+        border-color: #f00;
+        border-style: solid;
+        box-shadow: inset 0 3px 4px #888;
+      }
+
+      #data {
+        padding: 1em 0;
+        margin: 1em 0;
+        border: 2px dashed #555;
+      }
+
+      #data.hover {
+        color: #f00;
+        border-color: #f00;
+        border-style: solid;
+        box-shadow: inset 0 3px 4px #888;
+      }
     </style>
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -73,25 +86,30 @@
           if (!data)
             return;
           $.getJSON('api/create', {'data':data}, function (j) {
-              $("#result").html("");
-              $("#file-url").html("");
-              $("#progress").html("");
-              if (j.ok) {
-                var url = location.href + j.code;
-                $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url)));
-              } else {
-                $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
-              }
+            $("#result").html("");
+            $("#progress").html("");
+            if (j.ok) {
+              var url = location.href + j.code;
+              $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url)));
+            } else {
+              $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
+            }
           });
         });
 
         function FileDragHover(e) {
           e.stopPropagation();
           e.preventDefault();
-          e.target.className = (e.type == "dragover" ? "hover" : "");
+          var target = $(e.target);
+          if (e.type == "dragover") {
+            target.addClass("hover");
+          } else {
+            target.removeClass("hover");
+          }
         }
 
         function FileSelectHandler(e) {
+          $("#progress").html("");
           // cancel event and hover styling
           FileDragHover(e);
           var files = false;
@@ -127,16 +145,15 @@
             if (xhr.readyState == 4) {
               progress.className = (xhr.status == 200 ? "success" : "failure");
               $("#result").html("");
-              $("#file-url").html("");
               if (xhr.status == 200) {
                 var j = eval("(" + xhr.responseText +")");
                 if (j.ok) {
                   var url = location.href + j.code;
-                  $("#file-url").append($("<p>共享文件地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url)));
+                  $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>共享文件地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url)));
                   return;
                 }
               }
-              $("#file-url").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
+              $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
               return;
             }
           };
@@ -146,9 +163,9 @@
           xhr.send(file);
         }
 
-        $("#filedrag").bind("dragover", FileDragHover);
-        $("#filedrag").bind("dragleave",FileDragHover);
-        $("#filedrag").bind("drop", FileSelectHandler);
+        $("#data").bind("dragover", FileDragHover);
+        $("#data").bind("dragleave",FileDragHover);
+        $("#data").bind("drop", FileSelectHandler);
       });
     </script>
   </head>
@@ -161,33 +178,32 @@
       </div>
     </div>
     <div class='container'>
-      <div class="row">
-        <div class="span6">
-          <div class="control-group">
-            <textarea rows="10" class="span6" id="data"></textarea>
+      <div class="row-fluid">
+        <div class="span8 offset2">
+          <div class="control-group" class="filedrag">
+            <textarea rows="10" class="span12" id="data" placeholder="Type text or URL, or Drop files here"></textarea>
           </div>
           <div class="control-group pull-right">
             <button id="txt_button" class="btn">短点!</button>
           </div>
         </div>
-        <div class="span6" id="result"><a href=""></a></div>
+        <div class="span12">
+          <div id="progress"></div>
+          <div id="result" style="display: block; margin-top: 30px;"></div>
+        </div>
       </div>
-      <hr />
-      <div id="progress"></div>
-      <div id="filedrag" style="display: block;">Drop files here</div>
-      <div id="file-url" style="display: block;"></div>
     </div>
-    <hr />
     <footer class="footer">
       <div class="container">
-        <p>Coded and designed by Nutz Production Committee&#12288;© 2012</p>
+        <p>Coded and designed by <a href="https://github.com/nutzam?tab=members">Nutz Production Committee</a>&#12288;© 2012</p>
         <p>Powered by&#12288;<a href="https://github.com/nutzam/nutz">Nutz</a></p>
         <p>Thanks&#12288;<a href="https://github.com/twitter/bootstrap">Bootstrap</a>
         <p><img src="https://chart.googleapis.com/chart?chs=100x100&cht=qr&choe=UTF-8&chl=http%3A%2F%2Fwww.nutz.cn%2F"/></p>
         <ul class="footer-links">
           <li><a href="http://nutzam.com">Nutz 官网地址</a></li>
           <li><a href="https://github.com/nutzam/nutz">Nutz Github</a></li>
-          <li><a href="http://code.google.com/p/nutz/">Nutz GoogleCode 首页</a></li>
+          <li><a href="http://code.google.com/p/nutz">Nutz GoogleCode 首页</a></li>
+          <li><a href="https://github.com/wendal/shortit">shortit</a></li>
         </ul>
       </div>
     </footer>
