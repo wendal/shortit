@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	"database/sql/driver"
 	"flag"
 	"fmt"
 	_ "github.com/mattn/go-sqlite3"
@@ -19,7 +18,6 @@ var (
 	dbType = flag.String("dbType", "sqlite3", "db type")
 	dbUrl  = flag.String("dbUrl", "sdata.db", "db url")
 	base   = flag.String("base", "../WebContent", "static file baseDir")
-	driver driver.Driver
 )
 
 var sdataPatten, _ = regexp.Compile("^/[1234567890abcdef]+$")
@@ -44,7 +42,7 @@ func main() {
 			log.Fatal(e)
 		}
 	}
-	driver = db.Driver()
+	db.Close()
 
 	http.HandleFunc("/api/create", Create)
 	http.HandleFunc("/api/create/bin", CreateBin)
@@ -94,9 +92,9 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "{'ok':true, 'code': '%s'}", strconv.FormatInt(id, 16))
 		return
 	}
-	conn, _ := driver.Open(*dbUrl)
-	defer conn.Close()
-	res, err := conn.Exec("insert into t_sdata (data,tp) values(?,?)", data, _type)
+	db, _ := sql.Open(*dbType, *dbUrl)
+	defer db.Close()
+	res, err := db.Exec("insert into t_sdata (data,tp) values(?,?)", data, _type)
 	if err != nil {
 		log.Print(err)
 		id = queryByDataAndType(data, _type)
@@ -115,18 +113,18 @@ func Query(w http.ResponseWriter, r *http.Request) {
 }
 
 func queryById(id int64) (data string, _type int) {
-	conn, _ := driver.Open(*dbUrl)
-	defer conn.Close()
-	row := conn.QueryRow("select data,tp from t_sdata where id=?", id)
+	db, _ := sql.Open(*dbType, *dbUrl)
+	defer db.Close()
+	row := db.QueryRow("select data,tp from t_sdata where id=?", id)
 
 	row.Scan(&data, &_type)
 	return
 }
 
 func queryByDataAndType(data string, _type int) (id int64) {
-	conn, _ := driver.Open(*dbUrl)
-	defer conn.Close()
-	row := conn.QueryRow("select id from t_sdata where data=? and tp=?", data, _type)
+	db, _ := sql.Open(*dbType, *dbUrl)
+	defer db.Close()
+	row := db.QueryRow("select id from t_sdata where data=? and tp=?", data, _type)
 
 	if row.Scan(&id) != nil {
 		id = -1
