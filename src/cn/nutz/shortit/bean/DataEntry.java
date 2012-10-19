@@ -38,4 +38,14 @@ public class DataEntry {
 	public Timestamp updateTime;
 	
 	// 懒得封装了,全部字段public
+
+	/**文件名*/
+	public String filename() {
+		return data.substring(0, data.lastIndexOf(','));
+	}
+
+	/**文件ID*/
+	public String fid() {
+		return data.substring(data.lastIndexOf(',') + 1);
+	}
 }

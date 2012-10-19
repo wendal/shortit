@@ -102,10 +102,8 @@ public class CoreModule {
 	public Object readBin(@Param("code")String code, HttpServletResponse resp) throws IOException{
 		DataEntry entry = query(code);
 		if (entry != null && entry.type == 2) {
-			String filename = entry.data.substring(0, entry.data.lastIndexOf(','));
-			filename = URLEncoder.encode(filename, Encoding.UTF8);
-			String fid = entry.data.substring(entry.data.lastIndexOf(',') + 1);
-			File file = Helper.filePool.getFile(Long.parseLong(fid), ".bin");
+			String filename = URLEncoder.encode(entry.filename(), Encoding.UTF8);
+			File file = Helper.filePool.getFile(Long.parseLong(entry.fid()), ".bin");
 			if (file != null && file.exists()) {
 				resp.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
 				resp.setHeader("Content-Length", "" + file.length());

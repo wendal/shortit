@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class='container'>
-      <h3>File Name : <%=((DataEntry)request.getAttribute("obj")).data.substring(0, ((DataEntry)request.getAttribute("obj")).data.lastIndexOf(',')) %></h3>
+      <h3>File Name : <%= ((DataEntry)request.getAttribute("obj")).filename() %></h3>
       <a href="api/read/bin?code=<%=Long.toHexString(((DataEntry)request.getAttribute("obj")).id) %>">下载</a>
     </div>
     <footer class="footer">
