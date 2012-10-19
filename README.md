@@ -17,7 +17,7 @@ http://nutz.cn
 
 Java版安装
 -----------------
-一个标准的Eclipse J2EE工程,码农都懂!!
+Eclipse导入工程即可，然后通过Jetty插件运行，you know
 
 Golang版安装
 -----------------
