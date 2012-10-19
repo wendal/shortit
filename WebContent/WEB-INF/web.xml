@@ -9,8 +9,8 @@
       <param-value>cn.nutz.shortit.MainModule</param-value>
     </init-param>
     <init-param>
-    	<param-name>ignore</param-name>
-    	<param-value>^.+\\.(jsp|png|gif|jpg|js|css|jspx|jpeg|swf|ico|html)$</param-value>
+      <param-name>ignore</param-name>
+      <param-value>^.+\\.(jsp|png|gif|jpg|js|css|jspx|jpeg|swf|ico|html)$</param-value>
     </init-param>
   </filter>
   <filter-mapping>
@@ -20,22 +20,22 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-  
+
   <error-page>
-  	<error-code>404</error-code>
-  	<location>/404.html</location>
+    <error-code>404</error-code>
+    <location>/404.html</location>
   </error-page>
-  
+
   <error-page>
-  	<error-code>500</error-code>
-  	<location>/50x.jsp</location>
-  </error-page>
-  <error-page>
-  	<error-code>501</error-code>
-  	<location>/50x.jsp</location>
+    <error-code>500</error-code>
+    <location>/50x.html</location>
   </error-page>
   <error-page>
-  	<error-code>502</error-code>
-  	<location>/50x.jsp</location>
+    <error-code>501</error-code>
+    <location>/50x.html</location>
+  </error-page>
+  <error-page>
+    <error-code>502</error-code>
+    <location>/50x.html</location>
   </error-page>
 </web-app>
