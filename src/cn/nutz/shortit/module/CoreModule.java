@@ -101,7 +101,7 @@ public class CoreModule {
 	@Ok("void")
 	public Object readBin(@Param("code")String code, HttpServletResponse resp) throws IOException{
 		DataEntry entry = query(code);
-		if (entry != null && entry.type == 2) {
+		if (entry != null && entry.type == DataEntry.DataType.FILE.value()) {
 			String filename = URLEncoder.encode(entry.filename(), Encoding.UTF8);
 			File file = Helper.filePool.getFile(Long.parseLong(entry.fid()), ".bin");
 			if (file != null && file.exists()) {

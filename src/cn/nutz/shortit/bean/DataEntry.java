@@ -48,4 +48,20 @@ public class DataEntry {
 	public String fid() {
 		return data.substring(data.lastIndexOf(',') + 1);
 	}
+
+	public enum DataType{
+		URL(0),
+		STRING(1),
+		FILE(2);
+
+		private int value = 0;
+
+		DataType(int value) {
+			this.value = value;
+		}
+
+		public int value() {
+			return value;
+		}
+	}
 }

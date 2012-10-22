@@ -27,7 +27,7 @@ public class DataEntryService extends IdEntityService<DataEntry> { //超类带�
 		File f = Helper.filePool.createFile(".bin");
 		Files.write(f, in); // TODO 判断in的大小,防止过大的文件
 		DataEntry entry = new DataEntry();
-		entry.type = 2;
+		entry.type = DataEntry.DataType.FILE.value();
 		//这里的data的格式是 "文件夹,文件id", 这样的设计够简单,但会存储相同的文件
 		entry.data = fileName+","+Helper.filePool.getFileId(f);
 		return dao().insert(entry);//必不重复
@@ -42,11 +42,11 @@ public class DataEntryService extends IdEntityService<DataEntry> { //超类带�
 		entry.data = data;
 		//带http/https/ftp的作为网址,其余的统统当成文本
 		if (data.contains("\n")) {
-			entry.type = 1;
+			entry.type = DataEntry.DataType.STRING.value();
 		} else if (data.startsWith("http://") || data.startsWith("https://") || data.startsWith("ftp://")) {
-			entry.type = 0;
+			entry.type = DataEntry.DataType.URL.value();
 		} else {
-			entry.type = 1;
+			entry.type = DataEntry.DataType.STRING.value();
 		}
 		//先查一查,如果已经存在,那么就不需要插入了
 		DataEntry en = fetch(Cnd.where("data", "=", data).and("type", "=", entry.type));
