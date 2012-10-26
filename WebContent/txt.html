@@ -1,7 +1,3 @@
-<%@page import="cn.nutz.shortit.bean.DataEntry"%>
-<%@page import="org.nutz.lang.Strings"%>
-<%@page import="org.nutz.lang.Lang"%>
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -25,7 +21,7 @@
       </div>
     </div>
     <div class='container'>
-      <pre><%= Strings.escapeHtml(((DataEntry)request.getAttribute("obj")).data) %></pre>
+      <pre class="" id="content_txt"></pre>
     </div>
     <footer class="footer">
       <div class="container">

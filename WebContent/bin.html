@@ -1,5 +1,3 @@
-<%@page import="cn.nutz.shortit.bean.DataEntry"%>
-<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
   <head>
@@ -23,8 +21,8 @@
       </div>
     </div>
     <div class='container'>
-      <h3>File Name : <%= ((DataEntry)request.getAttribute("obj")).filename() %></h3>
-      <a href="api/read/bin?code=<%=Long.toHexString(((DataEntry)request.getAttribute("obj")).id) %>">下载</a>
+      <h3 id="fileName"></h3>
+      <a  id="fileHref" href="#">下载</a>
     </div>
     <footer class="footer">
       <div class="container">
