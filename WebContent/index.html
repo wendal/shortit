@@ -130,7 +130,6 @@
               $("#result").html("");
               if (xhr.status == 200) {
                 var j = eval("(" + xhr.responseText +")");
-                j = eval("(" + j + ")");
                 if (j.ok) {
                   var url = location.href + j.code;
                   $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>共享文件地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url))).append($('<p></p>').append($('<img/>').attr('src', 'https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=' + encodeURIComponent(url))));

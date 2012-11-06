@@ -30,6 +30,7 @@ import cn.nutz.shortit.Helper;
 
 @IocBean
 @Fail("http:500")
+@Ok("raw")
 public class ApiModule {
 
 	@At("/?")
@@ -88,7 +89,6 @@ public class ApiModule {
 	}
 
 	@At("/api/read/?")
-	@Ok("raw")
 	public Object read(String code, HttpServletResponse resp)
 			throws FileNotFoundException {
 		long id = Helper.string2Id(code);
