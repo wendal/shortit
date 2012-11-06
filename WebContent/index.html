@@ -68,9 +68,17 @@
           var data = $("#data").val();
           if (!data)
             return;
-          $.post('api/create', {'data':data}, function (j) {
+          var url = 'api/create/txt';
+          if (data.split(/n/).length == 1) {
+            var reg = /(https?|ftp):\/\/[^\/?:]+(:[0-9]{1,5})?(\/?|(\/[^\/]+)*(\?[^\s"']+)?)/;
+            if (reg.test(data)) {
+              url = 'api/create/url';
+            }
+          }
+          $.post(url, data, function (j) {
             $("#result").html("");
             $("#progress").html("");
+            j = eval("(" + j + ")");
             if (j.ok) {
               var url = location.href + j.code;
               $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url))).append($('<p></p>').append($('<img/>').attr('src', 'https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=' + encodeURIComponent(url))));

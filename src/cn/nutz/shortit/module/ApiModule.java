@@ -94,7 +94,7 @@ public class ApiModule {
 		long id = Helper.string2Id(code);
 		if (id < 0)
 			return HTTP_404;
-		File f = Helper.filePool.getFile(id, ".bin");
+		File f = Helper.filePool.getFile(id, "");
 		if (f == null)
 			return HTTP_404;
 		resp.setHeader("Content-Length", "" + f.length());

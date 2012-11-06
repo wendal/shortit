@@ -6,6 +6,16 @@
     <title>文本信息</title>
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.1.1/css/bootstrap-combined.min.css" rel="stylesheet">
     <link href="assets/css/common.css" rel="stylesheet">
+    <script type="text/javascript" src="assets/js/jquery-1.3.2.min.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        var path = location.pathname.split('/');
+        var url = 'api/read/' + path[path.length - 1];
+        $.post(url, function (j) {
+          $('#content_txt').text(j);
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
