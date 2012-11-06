@@ -69,10 +69,11 @@
           if (!data)
             return;
           var url = 'api/create/txt';
-          if (data.split(/n/).length == 1) {
+          if (data.split(/\n/).length == 1) {
             var reg = /(https?|ftp):\/\/[^\/?:]+(:[0-9]{1,5})?(\/?|(\/[^\/]+)*(\?[^\s"']+)?)/;
             if (reg.test(data)) {
               url = 'api/create/url';
+              data = {'data': data};
             }
           }
           $.post(url, data, function (j) {
