@@ -98,7 +98,7 @@ public class ApiModule {
 		if (f == null)
 			return HTTP_404;
 		resp.setHeader("Content-Length", "" + f.length());
-		resp.setContentType("text/plain; charset=x-user-defined");
+		resp.setContentType("text/plain; charset=utf8");
 		return new FileInputStream(f);
 	}
 
