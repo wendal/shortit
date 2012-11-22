@@ -162,7 +162,7 @@ public class ApiModule {
 	}
 	
 	static String _fail(String str) {
-		return String.format("{'\"ok\":false,\"msg\":\"%s\"}", str);
+		return String.format("{\"ok\":false,\"msg\":\"%s\"}", str);
 	}
 
 	static final View HTTP_404 = new HttpStatusView(404);

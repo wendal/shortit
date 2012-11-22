@@ -1,13 +1,19 @@
 ﻿{
-  "name": "My First Extension",
+  "background": {
+    "page": "background.html"
+  },
+  "name": "短点!",
   "version": "1.0",
   "manifest_version": 2,
-  "description": "The first extension that I made.",
+  "description": "短点Chrome插件(nutz.cn)",
   "browser_action": {
-    "default_icon": "icon_16.png",
-	"default_popup": "popup.html"
+	"default_name": "短点!",
+    "default_icon": "nutz-16.ico"
   },
   "permissions": [
     "http://nutz.cn/"
-  ]
+  ],
+  "icons": { "16": "icon16.png",
+           "48": "icon48.png",
+          "128": "icon128.png" }
 }
