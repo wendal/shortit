@@ -54,8 +54,8 @@ $(function() {
       alert("Emtry File");
       return;
     }
-    if (file.size > 1024*1024) {
-      alert("Must less than 1mb");
+    if (file.size > 1024*1024*10) {
+      alert("Must less than 10mb");
       return;
     }
     var o = document.getElementById("progress");
