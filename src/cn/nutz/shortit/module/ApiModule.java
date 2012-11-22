@@ -158,11 +158,11 @@ public class ApiModule {
 	}
 	
 	static String _ok(long id) {
-		return String.format("{'ok':true,'code':'%s'}", Helper.id2String(id));
+		return String.format("{\"ok\":true,\"code\":\"%s\"}", Helper.id2String(id));
 	}
 	
 	static String _fail(String str) {
-		return String.format("{'ok':false,'msg':'%s'}", str);
+		return String.format("{'\"ok\":false,\"msg\":\"%s\"}", str);
 	}
 
 	static final View HTTP_404 = new HttpStatusView(404);
