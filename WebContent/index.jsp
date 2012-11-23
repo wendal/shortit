@@ -4,7 +4,7 @@
 	String path = request.getContextPath();
 	String shortUrlPath = request.getScheme() + "://"
 			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/api/create/bookmarklet";
+			+ path + "/plugin/bookmarklet/create";
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>

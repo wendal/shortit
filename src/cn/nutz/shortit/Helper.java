@@ -1,6 +1,11 @@
 package cn.nutz.shortit;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+
 import org.nutz.filepool.FilePool;
+import org.nutz.lang.Files;
 
 /**
  * 帮助类,不解释
@@ -48,6 +53,37 @@ public class Helper {
 				
 		}
 		return id;
+	}
+	
+	public static File newFile() {
+		synchronized (lock) {
+			return Helper.filePool.createFile("");
+		}
+	}
+	
+	private static final Object lock = new Object();
+	
+	public static long write(InputStream content, String meta) {
+		File f = newFile();
+		Files.write(f, content);
+		Files.write(f.getPath() +".meta", meta);
+		return filePool.getFileId(f);
+	}
+	
+	public static long createUrl(String url) {
+		if (url == null) 
+			return -1;
+		if (url.length() > 1024*4)
+			return -1;
+		return write(new ByteArrayInputStream(url.getBytes()), "url:");
+	}
+	
+	public static String _ok(long id) {
+		return String.format("{\"ok\":true,\"code\":\"%s\"}", Helper.id2String(id));
+	}
+	
+	public static String _fail(String str) {
+		return String.format("{\"ok\":false,\"msg\":\"%s\"}", str);
 	}
 	
 	public static void main(String[] args) {

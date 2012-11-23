@@ -17,6 +17,7 @@ $(function() {
       if (j.ok) {
         var url = location.href + j.code;
         $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url))).append($('<p></p>').append($('<img/>').attr('src', 'https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=' + encodeURIComponent(url))));
+        $("#data").val("");
       } else {
         $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
       }
