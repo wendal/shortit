@@ -63,13 +63,14 @@ public class ApiModule {
 	}
 	
 	@At("/api/create/bookmarklet")
-	@Ok("raw")
-	public Object createUrlForBookmarklet(@Param("url") String url) throws UnsupportedEncodingException {
+	@Ok("jsp:/iframe.jsp")
+	public void createUrlForBookmarklet(HttpServletRequest req, @Param("url") String url) throws UnsupportedEncodingException {
 		@SuppressWarnings("unchecked")
 		Map<String, Object> map = Json.fromJson(Map.class,String.valueOf(createUrl(url)));
 		String code=(String)map.get("code");
-		return String.format(iframeStr, code, "http://nutz.cn/" + code,
-                URLEncoder.encode("http://nutz.cn/" + code, "utf-8"));
+		String shortUrl = "http://nutz.cn/" + code;
+		req.setAttribute("url", shortUrl);
+		req.setAttribute("imageUrl", URLEncoder.encode(shortUrl, "utf-8"));
 	}
 
 	@At("/api/create/txt")
