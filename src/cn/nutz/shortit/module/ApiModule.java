@@ -59,8 +59,8 @@ public class ApiModule {
 	
 	@At("/bookmarklet")
 	@Ok("jsp:/index.jsp")
-    public void showBookmarklet() {
-    }
+	public void showBookmarklet() {
+	}
 	
 	@At("/api/create/bookmarklet")
 	@Ok("raw")
