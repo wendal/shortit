@@ -51,7 +51,7 @@
 				
 				/* Request */
 				var	xhr = new XMLHttpRequest();
-				xhr.open('POST', 'http://nutz.cn/api/create/url?data='+tab.url, false);
+				xhr.open('POST', 'http://nutz.cn/api/create/url?data='+encodeURIComponent(tab.url), false);
 				
 				/* Responce */
 				xhr.onreadystatechange = function() {
