@@ -9,6 +9,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<link rel="shortcut icon" href="assets/img/logo/nutz-shortit-logo-16x16.png" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>收藏短点|方便无处不在</title>
 <style type="text/css">
