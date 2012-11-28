@@ -15,9 +15,10 @@ $(function() {
       $("#result").html("");
       $("#progress").html("");
       if (j.ok) {
-        var url = location.href + j.code;
-        $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url))).append($('<p></p>').append($('<img/>').attr('src', 'https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=' + encodeURIComponent(url))));
+        var url = location.host + location.pathname + j.code;
+        $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url))).append($('<p id="result-qrcode" style="display: none"></p>').append($('<img/>').attr('src', 'https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=' + encodeURIComponent(url)))).append($('<p><a href="javascript:void(0);" id="result-qrcode-str">显示短地址QR Code</a></p>'));
         $("#data").val("");
+        qrcodeToggle("result", "显示短地址QR Code", "隐藏短地址QR Code");
       } else {
         $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
       }
@@ -75,8 +76,9 @@ $(function() {
         if (xhr.status == 200) {
           var j = eval("(" + xhr.responseText +")");
           if (j.ok) {
-            var url = location.href + j.code;
-            $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>共享文件地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url))).append($('<p></p>').append($('<img/>').attr('src', 'https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=' + encodeURIComponent(url))));
+            var url = location.host + location.pathname + j.code;
+            $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>共享文件地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url))).append($('<p id="result-qrcode" style="display: none"></p>').append($('<img/>').attr('src', 'https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=' + encodeURIComponent(url)))).append($('<p><a href="javascript:void(0);" id="result-qrcode-str">显示短地址QR Code</a></p>'));;
+            qrcodeToggle("result", "显示短地址QR Code", "隐藏短地址QR Code");
           } else {
             $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
           }
@@ -90,7 +92,22 @@ $(function() {
     xhr.send(file);
   }
 
+  function qrcodeToggle(id, showStr, hideStr) {
+    $("#" + id + "-qrcode-str").toggle(
+      function () {
+        $("#" + id + "-qrcode").show();
+        $("#" + id + "-qrcode-str").html(hideStr);
+      },
+      function () {
+        $("#" + id + "-qrcode").hide();
+        $("#" + id + "-qrcode-str").html(showStr);
+      }
+    );
+  }
+
   $("#data").bind("dragover", FileDragHover);
   $("#data").bind("dragleave",FileDragHover);
   $("#data").bind("drop", FileSelectHandler);
+
+  qrcodeToggle("site", "显示本站QR Code", "隐藏本站QR Code");
 });

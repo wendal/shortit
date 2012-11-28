@@ -1,11 +1,8 @@
 body {
+  padding-bottom: 40px;
+  padding-top: 60px;
   background: none repeat scroll 0 0 #EEE;
   color: #666;
-}
-
-#container {
-  padding-top: 60px;
-  margin-bottom: 40px;
 }
 
 .footer {
