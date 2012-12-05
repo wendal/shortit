@@ -10,7 +10,9 @@ $(function () {
   var ul =  $('<ul class="footer-links"></ul>').append($('<li><a href="http://nutzam.com" target="_blank">Nutz 官网地址</a></li>'))
   .append($('<li><a href="https://github.com/nutzam/nutz" target="_blank">Nutz Github</a></li>'))
   .append($('<li><a href="http://code.google.com/p/nutz" target="_blank">Nutz GoogleCode 首页</a></li>'))
-  .append($('<li><a href="https://github.com/wendal/shortit" target="_blank">shortit</a></li>'));
+  .append($('<li><a href="https://github.com/wendal/shortit" target="_blank">本站源码地址</a></li>'))
+  .append($('<li><a href="http://nutz.cn/LD" target="_blank">Chrome插件</a></li>'))
+  .append($('<li><a href="http://nutz.cn/index.jsp" target="_blank">收藏夹插件</a></li>'));
   container.append(ul).append($('<a href="http://www.miibeian.gov.cn" target="_blank" title="查看备案信息">苏ICP备 10226088号-17</a>')).appendTo($('.footer'));
 
   qrcodeToggle("site", "显示本站QR Code", "隐藏本站QR Code");
