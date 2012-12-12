@@ -1,26 +1,43 @@
 $(function () {
-  $('<div class="navbar-inner"><div class="container"><a class="brand" href="./">短点!</a></div></div>').appendTo($('#navbar'));
-
-  var container = $('<div class="container"></div>').append($('<p>Coded and designed by <a href="https://github.com/nutzam?tab=members" target="_blank">Nutz Production Committee</a> © 2012</p>'))
-  .append($('<p>Powered by <a href="https://github.com/nutzam/nutz" target="_blank">Nutz</a></p>'))
-  .append($('<p>Thanks <a href="https://github.com/twitter/bootstrap" target="_blank">Bootstrap</a></p>'))
-  .append($('<p id="site-qrcode" style="display: none"><img src="https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=http%3A%2F%2Fwww.nutz.cn%2F" /></p>'))
-  .append($('<p><a href="javascript:void(0);" id="site-qrcode-str">显示本网站QR Code</a></p>'));
-
-  var ul =  $('<ul class="footer-links"></ul>').append($('<li><a href="http://nutzam.com" target="_blank">Nutz 官网地址</a></li>'))
-  .append($('<li><a href="https://github.com/nutzam/nutz" target="_blank">Nutz Github</a></li>'))
-  .append($('<li><a href="http://code.google.com/p/nutz" target="_blank">Nutz GoogleCode 首页</a></li>'))
-  .append($('<li><a href="https://github.com/wendal/shortit" target="_blank">本站源码地址</a></li>'))
-  .append($('<li><a href="http://nutz.cn/LD" target="_blank">Chrome插件</a></li>'))
-  .append($('<li><a href="http://nutz.cn/index.jsp" target="_blank">收藏夹插件</a></li>'));
-  container.append(ul).append($('<a href="http://www.miibeian.gov.cn" target="_blank" title="查看备案信息">苏ICP备 10226088号-17</a>')).appendTo($('.footer'));
-
-  qrcodeToggle("site", "显示本站QR Code", "隐藏本站QR Code");
-
+  navbar();
+  footer();
   disqus();
-
   googleAnalytics();
 });
+
+function navbar() {
+  $('<div class="navbar-inner"><div class="container"><a class="brand" href="./">短点!</a></div></div>').appendTo($('#navbar'));
+}
+
+function footer() {
+  var $unstyledUl = $('<ul class="unstyled"></ul>');
+
+  var $firstUlFooterLinks = $('<ul class="footer-links"></ul>');
+  $firstUlFooterLinks
+    .append($('<li>Powered by <a target="_blank" href="https://github.com/nutzam/nutz">Nutz</a></li>'))
+    .append($('<li>Thanks <a target="_blank" href="http://twitter.github.com/bootstrap/index.html">Bootstrap</a></li>'));
+
+  var $secondUlFooterLinks = $('<ul class="footer-links"></ul>');
+  $secondUlFooterLinks
+    .append($('<li><a target="_blank" href="http://nutzam.com">Nutz 官网地址</a></li>'))
+    .append($('<li><a target="_blank" href="https://github.com/nutzam/nutz">Nutz Github</a></li>'))
+    .append($('<li><a target="_blank" href="http://code.google.com/p/nutz">Nutz GoogleCode 首页</a></li>'))
+    .append($('<li><a target="_blank" href="https://github.com/wendal/shortit">本站源码地址</a></li>'))
+    .append($('<li><a target="_blank" href="http://nutz.cn/LD">Chrome插件</a></li>'))
+    .append($('<li><a target="_blank" href="http://nutz.cn/index.jsp">收藏夹插件</a></li>'));
+
+  $unstyledUl
+    .append($('<li class="footer-links">Coded and designed by <a target="_blank" href="https://github.com/nutzam?tab=members">Nutz Production Committee</a> &copy; 2012</li>'))
+    .append($('<li></li>').append($firstUlFooterLinks))
+    .append($('<li></li>').append($secondUlFooterLinks))
+    .append($('<li class="footer-links" style="display: none" id="site-qrcode"><img src="https://chart.googleapis.com/chart?chs=72x72&amp;cht=qr&amp;choe=UTF-8&amp;chl=http%3A%2F%2Fwww.nutz.cn%2F"></li>'))
+    .append($('<li class="footer-links"><a href="javascript:void(0);" id="site-qrcode-str">显示本网站QR Code</a></li>'))
+    .append($('<li class="footer-links"><a title="查看备案信息" target="_blank" href="http://www.miibeian.gov.cn">苏ICP备 10226088号-17</a></li>'));
+
+  $('<div class="container"></div>').append($unstyledUl).appendTo($('.footer'));
+
+  qrcodeToggle("site", "显示本站QR Code", "隐藏本站QR Code");
+}
 
 function qrcodeToggle(id, showStr, hideStr) {
   $("#" + id + "-qrcode-str").toggle(
