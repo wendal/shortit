@@ -1,5 +1,6 @@
 $(function() {
   $("#txt_button").click(function() {
+    $(this).attr('disabled',true)
     var data = $("#data").val();
     if (!data)
       return;
@@ -22,6 +23,7 @@ $(function() {
       } else {
         $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
       }
+      $(this).attr('disabled',false)
     } , "json");
   });
 
