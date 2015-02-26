@@ -78,7 +78,10 @@ public class Helper {
 		return write(new ByteArrayInputStream(url.getBytes()), "url:");
 	}
 	
+	public static long lastId = -1;
+	
 	public static String _ok(long id) {
+		lastId = id;
 		return String.format("{\"ok\":true,\"code\":\"%s\"}", Helper.id2String(id));
 	}
 	

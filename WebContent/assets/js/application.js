@@ -1,8 +1,8 @@
 $(function () {
   navbar();
   footer();
-  disqus();
-  googleAnalytics();
+  //disqus();
+  //googleAnalytics();
 });
 
 function navbar() {

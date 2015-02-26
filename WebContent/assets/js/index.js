@@ -1,6 +1,6 @@
 $(function() {
   $("#txt_button").click(function() {
-    $(this).attr('disabled',true)
+    $(this).attr('disabled',true);
     var data = $("#data").val();
     if (!data)
       return;
@@ -17,13 +17,13 @@ $(function() {
       $("#progress").html("");
       if (j.ok) {
         var url = location.protocol + "//" + location.host + location.pathname + j.code;
-        $("#result").append($('<div class="alert alert-success">Success</div>')).append($("<p>短地址: </p>").append($('<a target="_blank">' + url + '</a>').attr("href", url))).append($('<p id="result-qrcode" style="display: none"></p>').append($('<img/>').attr('src', 'https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=' + encodeURIComponent(url)))).append($('<p><a href="javascript:void(0);" id="result-qrcode-str">显示短地址QR Code</a></p>'));
+        $("#result").append($("<div class='alert alert-success'><p>短地址: </p></div>").append($('<a target="_blank">' + url + '</a>').attr("href", url))).append($('<p id="result-qrcode" style="display: none"></p>').append($('<img/>').attr('src', 'https://chart.googleapis.com/chart?chs=72x72&cht=qr&choe=UTF-8&chl=' + encodeURIComponent(url)))).append($('<p><a href="javascript:void(0);" id="result-qrcode-str">显示短地址QR Code</a></p>'));
         $("#data").val("");
         qrcodeToggle("result", "显示短地址QR Code", "隐藏短地址QR Code");
       } else {
         $("#result").append($('<div class="alert alert-error">Oops</div>')).append($("<p></p>").text("ERROR: " + j.msg));
       }
-      $(this).attr('disabled',false)
+      $(this).attr('disabled',false);
     } , "json");
   });
 

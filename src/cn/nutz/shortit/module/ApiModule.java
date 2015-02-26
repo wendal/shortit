@@ -117,6 +117,13 @@ public class ApiModule {
 		Streams.writeAndClose(resp.getOutputStream(), Streams.fileIn(f));
 		return null;
 	}
+	
+	@At("/api/last")
+	public String lastUrl() {
+		if (Helper.lastId > 0)
+			return Helper.id2String(Helper.lastId);
+		return "";
+	}
 
 	public View render(long id) {
 		File f = Helper.filePool.getFile(id, "");
